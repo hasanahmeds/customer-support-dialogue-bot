@@ -1,0 +1,562 @@
+{
+  "number": 17,
+  "title": "Customer Support Dialogue Bot",
+  "slug": "customer-support-dialogue-bot",
+  "start": "2025-10-17",
+  "end": "2025-11-03",
+  "repo": "Conchylicultor/DeepQA",
+  "branch": "master",
+  "license": "Apache-2.0",
+  "note": "TensorFlow seq2seq conversational model; legacy runtime and general dialogue data, not a modern PyTorch support bot.",
+  "sha": "886ec77ac49ff70be1b6d4de30fffe6a96480a4f",
+  "archive_sha256": "8779f0e3af73869879a97dca29e57fe320bfc6e98228916d6baaf9c660abd592",
+  "imported_at": "2026-10-28T21:31:48.655674+00:00",
+  "history": "Reconstructed import history; dates are not dates of original development.",
+  "upstream_files": {
+    "upstream/.dockerignore": {
+      "sha256": "a7c4bfda37364ca4418e887cf101f94c5778bb75c0ea2e7371d70132327654f1",
+      "mode": "100644",
+      "bytes": 12
+    },
+    "upstream/.gitignore": {
+      "sha256": "3ca176379c7b1222b48cada98688708c6af26ee8cecd8cc69643da2d9db5bd10",
+      "mode": "100644",
+      "bytes": 1121
+    },
+    "upstream/Dockerfile": {
+      "sha256": "17f4b438d631ab1f64e87487f5d95d51995ffd1aba5c6800334baa756b809bc5",
+      "mode": "100644",
+      "bytes": 827
+    },
+    "upstream/Dockerfile.gpu": {
+      "sha256": "72a06de6ebe789fe67fba66c11add85d44e6b988f62f88fef675e0038860578d",
+      "mode": "100644",
+      "bytes": 866
+    },
+    "upstream/LICENSE": {
+      "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1",
+      "mode": "100644",
+      "bytes": 11357
+    },
+    "upstream/README.md": {
+      "sha256": "405985441794f7bb2bfc8593ea6b3ee5a3cd6ec37a016bb7a545ef62a67cd952",
+      "mode": "100644",
+      "bytes": 12985
+    },
+    "upstream/chatbot/__init__.py": {
+      "sha256": "f1346d87dfcb4bc6d96a20becbfda8995b6139e0fee133d1ad63a921f7b5e904",
+      "mode": "100644",
+      "bytes": 22
+    },
+    "upstream/chatbot/chatbot.py": {
+      "sha256": "6e6ae481f088d1205dd964749e8c5f8d58389aa4b90e1ba2b85ed60539101aef",
+      "mode": "100644",
+      "bytes": 34278
+    },
+    "upstream/chatbot/corpus/cornelldata.py": {
+      "sha256": "1201224b6bfb6d6888ecb3cd8dbe9d708bd36035df60591170d55e7acbd8067b",
+      "mode": "100644",
+      "bytes": 3321
+    },
+    "upstream/chatbot/corpus/lightweightdata.py": {
+      "sha256": "4142ed9949082ba42347733cb2084a3d4ea55883b82a6e7dc090bb9aaca3e741",
+      "mode": "100644",
+      "bytes": 1961
+    },
+    "upstream/chatbot/corpus/opensubsdata.py": {
+      "sha256": "383d6ed98ff129075b8ed3f5ac267c1536761978188ea055e351d2d7ab0a14cf",
+      "mode": "100644",
+      "bytes": 4126
+    },
+    "upstream/chatbot/corpus/scotusdata.py": {
+      "sha256": "11d224b16c6fbb13fc9d1af2f31b08773e83128071ee80ff33ac4d812cc195ea",
+      "mode": "100644",
+      "bytes": 1602
+    },
+    "upstream/chatbot/corpus/ubuntudata.py": {
+      "sha256": "4eb993d893b7fd910cb60add7df06331dbfcd9910d88287c4a6f079947fbeda1",
+      "mode": "100644",
+      "bytes": 2154
+    },
+    "upstream/chatbot/model.py": {
+      "sha256": "b07e48abeadc50946e26767fbe24e4b7118f953e7ecb585509f932853e25b03c",
+      "mode": "100644",
+      "bytes": 9933
+    },
+    "upstream/chatbot/textdata.py": {
+      "sha256": "ac38ae6a8598820627a3fa520ff6af9150b22b599e427093e6a0277231c74fab",
+      "mode": "100755",
+      "bytes": 26071
+    },
+    "upstream/chatbot/trainner.py": {
+      "sha256": "9b5350f83785aa8ebb6d28e6b8f9f7b243e14c72e418676f15169230bcc294dc",
+      "mode": "100644",
+      "bytes": 1601
+    },
+    "upstream/chatbot_miniature.png": {
+      "sha256": "ec89068738aa8fda49f2f0748a9b60dc2eaa91254d80006a844d08541ff63fb7",
+      "mode": "100644",
+      "bytes": 44896
+    },
+    "upstream/chatbot_website/.gitignore": {
+      "sha256": "3630893ce4a590ad445229b38972193ebe0dcb9007220d8b28b8b8210bc178cd",
+      "mode": "100644",
+      "bytes": 38
+    },
+    "upstream/chatbot_website/chatbot_interface/__init__.py": {
+      "sha256": "fe140f120ceb7407a1d916a826b5e078d603edefb17bd7c5e1cff7b0d726bd07",
+      "mode": "100644",
+      "bytes": 71
+    },
+    "upstream/chatbot_website/chatbot_interface/admin.py": {
+      "sha256": "b2e328e31f08dc907100505521d13ee6a9ea67a240655d051120011ce49cfaf8",
+      "mode": "100644",
+      "bytes": 63
+    },
+    "upstream/chatbot_website/chatbot_interface/apps.py": {
+      "sha256": "2738af3731c8b021b6e7e33559c80e577ac40ba34eda2ba8d9c9558f90cadb41",
+      "mode": "100644",
+      "bytes": 108
+    },
+    "upstream/chatbot_website/chatbot_interface/chatbotmanager.py": {
+      "sha256": "3fe7fadc293e2261f14ef2c0191426fd69bba2ded57c6bb27b659c5a61848ff8",
+      "mode": "100644",
+      "bytes": 1924
+    },
+    "upstream/chatbot_website/chatbot_interface/consumer.py": {
+      "sha256": "939c3e244e1b6d2c77fa0ceaabe38eecc217f1d2423aff743df98793e09319d7",
+      "mode": "100644",
+      "bytes": 2269
+    },
+    "upstream/chatbot_website/chatbot_interface/migrations/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644",
+      "bytes": 0
+    },
+    "upstream/chatbot_website/chatbot_interface/models.py": {
+      "sha256": "563734a765db00f804e87c9317abe597df00e1e0e103902f690aac738910f404",
+      "mode": "100644",
+      "bytes": 57
+    },
+    "upstream/chatbot_website/chatbot_interface/routing.py": {
+      "sha256": "020b3cce61c97d5700c2742db82931d06e91b2d27920b394b9587d516c274e09",
+      "mode": "100644",
+      "bytes": 292
+    },
+    "upstream/chatbot_website/chatbot_interface/static/LICENSE.txt": {
+      "sha256": "d7b98629668e4968281c7083336bc292ae55e2ca3a5469072b9657dd2c1a634e",
+      "mode": "100644",
+      "bytes": 17128
+    },
+    "upstream/chatbot_website/chatbot_interface/static/README.txt": {
+      "sha256": "dfe7098d0bcd5b83b0bf30b6cda2671956f4c040ddd3074b39d373c4c338c145",
+      "mode": "100644",
+      "bytes": 728
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/css/font-awesome.min.css": {
+      "sha256": "008a1d103902f15fdb1c191fcb1ce8954330e7b8de43d09abb08555ba609f420",
+      "mode": "100644",
+      "bytes": 29063
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/css/ie8.css": {
+      "sha256": "8b7be591afcfd0e8c2cc8a001376e83db06f4151b44875f0445c935085d89e22",
+      "mode": "100644",
+      "bytes": 527
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/css/ie9.css": {
+      "sha256": "cd33c3469dd1b081f5a7b1aca5ea56c91ea0299644bb3ed0fdce4b78b6f15bd1",
+      "mode": "100644",
+      "bytes": 587
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/css/images/overlay.png": {
+      "sha256": "66dc25438f7c9e6091248da90c2a2aadf165dddad7c39553786ad2b78fb5711c",
+      "mode": "100644",
+      "bytes": 166
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/css/main.css": {
+      "sha256": "cf4fcb778b3265de51095cf46b9e89aa9a451be589c9fed558e83a40196d2436",
+      "mode": "100644",
+      "bytes": 17757
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/css/noscript.css": {
+      "sha256": "ea31fcc6c1b5d98ca05248e98bfafdeb43556d9ca9c96ba918190fadfccee4d4",
+      "mode": "100644",
+      "bytes": 370
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/fonts/FontAwesome.otf": {
+      "sha256": "ecd72f31910a8ee2726fd17bd459be26f230779f3f3ed5f69ebf829e4b12e768",
+      "mode": "100644",
+      "bytes": 124988
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.eot": {
+      "sha256": "50bbe9192697e791e2ee4ef73917aeb1b03e727dff08a1fc8d74f00e4aa812e1",
+      "mode": "100644",
+      "bytes": 76518
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.svg": {
+      "sha256": "8e3586389bb4cd01b3f85bb3b622739bde6627f28bba63a020c223ca9cf1b9ae",
+      "mode": "100644",
+      "bytes": 391622
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.ttf": {
+      "sha256": "ae19e2e4c04f2b04bf030684c4c1db8faf5c8fe3ee03d1e0c409046608b38912",
+      "mode": "100644",
+      "bytes": 152796
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.woff": {
+      "sha256": "adbc4f95eb6d7f2738959cf0ecbc374672fce47e856050a8e9791f457623ac2c",
+      "mode": "100644",
+      "bytes": 90412
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.woff2": {
+      "sha256": "7dacf83f51179de8d7980a513e67ab3a08f2c6272bb5946df8fd77c0d1763b73",
+      "mode": "100644",
+      "bytes": 71896
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/js/PIE.htc": {
+      "sha256": "7f460ab002f1bfbed953d1cd100ca515fd453fbc076c6737724a9e4875875d96",
+      "mode": "100644",
+      "bytes": 41041
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/js/html5shiv.js": {
+      "sha256": "7d8c569f72ce69b0cbae60a34672416ddc41aabd58df8b889728750f1f69d2bc",
+      "mode": "100644",
+      "bytes": 2380
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/js/respond.min.js": {
+      "sha256": "82069c15edd6943dfaa59f5ac3f6acc86fd44a28fe925e410ccdcadec194a8ba",
+      "mode": "100644",
+      "bytes": 4591
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/base/_page.scss": {
+      "sha256": "49674075def059586a4ef483e0a928c58a24d5f27565cc6e69df707f60217553",
+      "mode": "100644",
+      "bytes": 1925
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/base/_typography.scss": {
+      "sha256": "f1a63ab89db9b7757f6b9ac70edaa3e418860c988f7611a800dd05f9537e26e9",
+      "mode": "100644",
+      "bytes": 2012
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_button.scss": {
+      "sha256": "9c3337c9a5e98fccdc46279ede74f263b2fa754f0a485ecf75a595c925529927",
+      "mode": "100644",
+      "bytes": 1447
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_form.scss": {
+      "sha256": "53ee9fea2cc2cc846cbbede33f3dcafb2226ca0bc8c0e17b84c2cf729fe03bd6",
+      "mode": "100644",
+      "bytes": 3345
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_icon.scss": {
+      "sha256": "178dbabde5871c8159c68c5614ea9efe1bbeab1f7f3e04f90b0c9f70c4ab07ee",
+      "mode": "100644",
+      "bytes": 369
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_list.scss": {
+      "sha256": "8f9699cc31d8c6ac613bc84bab53a2485bced95def817ac7d509242f27a59317",
+      "mode": "100644",
+      "bytes": 2223
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/ie8.scss": {
+      "sha256": "16af2cb55fa2ad8a011722d8d79a9f313c1d0f1ed34a87d7b1285f9c2fa8544d",
+      "mode": "100644",
+      "bytes": 712
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/ie9.scss": {
+      "sha256": "33954ba19146a7f97b53cc9f3da21c7319f0fa55ac2b13222dc48aaa30775765",
+      "mode": "100644",
+      "bytes": 826
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/layout/_footer.scss": {
+      "sha256": "b0f5ac61c3ac0a584d3a5662c8f6b7a754663778ab7428ca2e871d63e385a1ad",
+      "mode": "100644",
+      "bytes": 818
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/layout/_main.scss": {
+      "sha256": "99e5dd12eaddc7e163a4aebbb18c649b30aeec1f1f066425a950953bb940a7a0",
+      "mode": "100644",
+      "bytes": 1486
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/layout/_wrapper.scss": {
+      "sha256": "f3da18eb6e72e49f1b027a81aa5795faabdd909533e61393eeb8a959502fb74a",
+      "mode": "100644",
+      "bytes": 815
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_functions.scss": {
+      "sha256": "9a337e6f399fa4408abdd31f8aeb6e0d137adcf26a360e156aeb672e90568c14",
+      "mode": "100644",
+      "bytes": 787
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_mixins.scss": {
+      "sha256": "b9e92f657d4007ef6f9b966762da9d620d8ad6545de5276c9443af4c0a8a89cf",
+      "mode": "100644",
+      "bytes": 1723
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_skel.scss": {
+      "sha256": "9c9808d763372a91ed7c458121a8f08c56e39c083647087cd17d88c96ffae82d",
+      "mode": "100644",
+      "bytes": 16468
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_vars.scss": {
+      "sha256": "71585bf68fb9fb204c121ea581384e0170285302a0d7d5f24bf5435fcced7794",
+      "mode": "100644",
+      "bytes": 683
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/main.scss": {
+      "sha256": "2fcbc6a16df1189fafc001ab12cbbecf7f3923c495242277f278c23465fcbeab",
+      "mode": "100644",
+      "bytes": 1571
+    },
+    "upstream/chatbot_website/chatbot_interface/static/assets/sass/noscript.scss": {
+      "sha256": "e799f1c6715d3ac67012c27659c7bdeba03b444f11d5721489dad5bc814bd888",
+      "mode": "100644",
+      "bytes": 411
+    },
+    "upstream/chatbot_website/chatbot_interface/static/images/avatar.jpg": {
+      "sha256": "46818807834aa4a056fb5ce5af16b7fa4d9588d2ca157a970370c2d592746a5f",
+      "mode": "100644",
+      "bytes": 10428
+    },
+    "upstream/chatbot_website/chatbot_interface/static/images/bg.png": {
+      "sha256": "3d33a4c265a3ac262372fc8c674199c261b88864d2399c48bbdd101865069086",
+      "mode": "100644",
+      "bytes": 1500470
+    },
+    "upstream/chatbot_website/chatbot_interface/static/images/icon.png": {
+      "sha256": "137df5ef8dbb6dc15fd0c693540492bb4ee01a1c38ddce67e5f6b1789fb9ea6b",
+      "mode": "100644",
+      "bytes": 166
+    },
+    "upstream/chatbot_website/chatbot_interface/static/js/chat.js": {
+      "sha256": "62281e8c65a1acbd1190ae4634c028ae42ffc2e70851c2068a160b2a2a9b3900",
+      "mode": "100644",
+      "bytes": 1318
+    },
+    "upstream/chatbot_website/chatbot_interface/static/js/jquery-3.1.0.min.js": {
+      "sha256": "702b9e051e82b32038ffdb33a4f7eb5f7b38f4cf6f514e4182d8898f4eb0b7fb",
+      "mode": "100644",
+      "bytes": 86351
+    },
+    "upstream/chatbot_website/chatbot_interface/static/js/reconnecting-websocket.js": {
+      "sha256": "759530c7a9b3e67b3d2ccee851b450bfd54163140ee90a137ba31833eb2060a1",
+      "mode": "100644",
+      "bytes": 14429
+    },
+    "upstream/chatbot_website/chatbot_interface/templates/index.html": {
+      "sha256": "ac599567fca4a4c11d2bde29708b3f02a5b2e2dfa76e3f2e7fd1224233c5933d",
+      "mode": "100644",
+      "bytes": 3134
+    },
+    "upstream/chatbot_website/chatbot_interface/tests.py": {
+      "sha256": "9ab6c6191360e63c1b4c9b5659aef348a743c9e078be68190917369e4e9563e8",
+      "mode": "100644",
+      "bytes": 60
+    },
+    "upstream/chatbot_website/chatbot_interface/urls.py": {
+      "sha256": "6c166473110461e309e6765897896262622a66792603dc33baafbfecd237b3ec",
+      "mode": "100644",
+      "bytes": 148
+    },
+    "upstream/chatbot_website/chatbot_interface/views.py": {
+      "sha256": "776f9ef29395d06ca48e2dfc2cc1965965094f19ec57c3ae22c9310e522e466f",
+      "mode": "100644",
+      "bytes": 227
+    },
+    "upstream/chatbot_website/chatbot_website/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100644",
+      "bytes": 0
+    },
+    "upstream/chatbot_website/chatbot_website/asgi.py": {
+      "sha256": "6cf38984e74f3ea29420a8a46f7abd9678bf71410c4114771a89e49a2eae2ea6",
+      "mode": "100644",
+      "bytes": 229
+    },
+    "upstream/chatbot_website/chatbot_website/settings.py": {
+      "sha256": "bf0d989b069dd733a1048dc49bf012897ccab99b755cfffc56b881da5bccc277",
+      "mode": "100644",
+      "bytes": 4428
+    },
+    "upstream/chatbot_website/chatbot_website/urls.py": {
+      "sha256": "f04bb722d6a0faab19f1bb299e0a9fd3ed58f450ea5727ab36cee9334716537e",
+      "mode": "100644",
+      "bytes": 830
+    },
+    "upstream/chatbot_website/chatbot_website/wsgi.py": {
+      "sha256": "4ca4f81d0c04da84337a9ab93b3dd44e05d1cbf9da31ccd63c2d0ed1d326a825",
+      "mode": "100644",
+      "bytes": 408
+    },
+    "upstream/chatbot_website/logs/.gitignore": {
+      "sha256": "45b54d1600ef763e350ad223fdfa8f11768e7b8762b9296e795647b4f9f16845",
+      "mode": "100644",
+      "bytes": 70
+    },
+    "upstream/chatbot_website/manage.py": {
+      "sha256": "303fd674c43c4ecbd761b7e360c01851f20a168aed2336b14bc3663ee29aff01",
+      "mode": "100755",
+      "bytes": 813
+    },
+    "upstream/data/cornell/README.txt": {
+      "sha256": "eed90a1e924bbc927abf2195eb92b96037df04a8549f92fad1a10f9f52c2c357",
+      "mode": "100644",
+      "bytes": 4182
+    },
+    "upstream/data/cornell/movie_conversations.txt": {
+      "sha256": "600bc1d34ca629533643ca85c14b18849a548dce663e6d36977c14f24b75e055",
+      "mode": "100644",
+      "bytes": 6760930
+    },
+    "upstream/data/cornell/movie_lines.txt": {
+      "sha256": "59b9a78482829bc083d69cc9c164fc058eb4d0431712e09a4b08059663d0de56",
+      "mode": "100644",
+      "bytes": 34641919
+    },
+    "upstream/data/embeddings/.gitignore": {
+      "sha256": "aadb895cff58f071a71af2d0d43abba6472b68615f22bc0317d8b290c7886888",
+      "mode": "100644",
+      "bytes": 88
+    },
+    "upstream/data/embeddings/README.md": {
+      "sha256": "a29fe4b25dd6673ca60f1956ab14f7933db15953bac6080ccd6284a9b23082f5",
+      "mode": "100644",
+      "bytes": 741
+    },
+    "upstream/data/embeddings/vec2bin.py": {
+      "sha256": "d4a1fb44527a6bee399b9bbb642c8476d65b7394030f9afa782baeb7ebb06cd4",
+      "mode": "100644",
+      "bytes": 1604
+    },
+    "upstream/data/lightweight/.gitignore": {
+      "sha256": "6c652de05204117dcaa63e397d73403d2622b37228b00013b977b4c510920716",
+      "mode": "100644",
+      "bytes": 81
+    },
+    "upstream/data/lightweight/README.md": {
+      "sha256": "0d560c738bc2632bbe92bcfc8d80373b0a5f2bdf620d46807c1bd0929e718314",
+      "mode": "100644",
+      "bytes": 513
+    },
+    "upstream/data/opensubs/.gitignore": {
+      "sha256": "6c652de05204117dcaa63e397d73403d2622b37228b00013b977b4c510920716",
+      "mode": "100644",
+      "bytes": 81
+    },
+    "upstream/data/opensubs/README.md": {
+      "sha256": "7911d114ed7061d12cf1e74b3337e3ef58dd211a8048a68d6510d5653dea8d35",
+      "mode": "100644",
+      "bytes": 615
+    },
+    "upstream/data/samples/.gitignore": {
+      "sha256": "45b54d1600ef763e350ad223fdfa8f11768e7b8762b9296e795647b4f9f16845",
+      "mode": "100644",
+      "bytes": 70
+    },
+    "upstream/data/scotus/.gitignore": {
+      "sha256": "4809adb1525cc3ef642fe2fdc398706d737a05213fba457e51da82f95941e6dd",
+      "mode": "100644",
+      "bytes": 84
+    },
+    "upstream/data/scotus/README.md": {
+      "sha256": "bd5a6aff39d67e901ac73e4b4af9e90f27f1c1a9cbec03d18d76de7026175b78",
+      "mode": "100644",
+      "bytes": 200
+    },
+    "upstream/data/test/samples.txt": {
+      "sha256": "91220364c29e81ee6f40b347cbf59a5383549c459319d8ec4986e66f50f51fbc",
+      "mode": "100644",
+      "bytes": 6010
+    },
+    "upstream/data/ubuntu/.gitignore": {
+      "sha256": "4809adb1525cc3ef642fe2fdc398706d737a05213fba457e51da82f95941e6dd",
+      "mode": "100644",
+      "bytes": 84
+    },
+    "upstream/data/ubuntu/README.md": {
+      "sha256": "2b0222ce9e382d5280a0b27fac99ca14c87b33aaac23f7c5be051d946b1d8913",
+      "mode": "100644",
+      "bytes": 378
+    },
+    "upstream/docker/README.md": {
+      "sha256": "fbc2d865801aa36b452c683de3eff4069050bd24c6269c19a743f705915046f6",
+      "mode": "100644",
+      "bytes": 1371
+    },
+    "upstream/docker/data_dirs.sh": {
+      "sha256": "ec3a449a64ab2d05d5f6a34e69cbafcda95e9cf7384d1f258ab6b86928d078f5",
+      "mode": "100755",
+      "bytes": 412
+    },
+    "upstream/docker/deploy.yml": {
+      "sha256": "07a0358fecc1e13ed5d039f3b8ef658ad5d80dd45dc70024aed6de7da5b12f94",
+      "mode": "100644",
+      "bytes": 362
+    },
+    "upstream/docker/train.yml": {
+      "sha256": "8cca30518f9445d03bdc64ffdfafd1c65fdced09e8c54ab24bb2e62b7801eade",
+      "mode": "100644",
+      "bytes": 467
+    },
+    "upstream/main.py": {
+      "sha256": "e40777b383da2e2f1fa5454bbaeb2cae0d681f0667b6242663d7652cbda61607",
+      "mode": "100755",
+      "bytes": 885
+    },
+    "upstream/requirements.txt": {
+      "sha256": "4713489cb5e01ce31585ff676cb66504294c34f13dc4b55dccf26446bed828da",
+      "mode": "100644",
+      "bytes": 37
+    },
+    "upstream/save/.gitignore": {
+      "sha256": "45b54d1600ef763e350ad223fdfa8f11768e7b8762b9296e795647b4f9f16845",
+      "mode": "100644",
+      "bytes": 70
+    },
+    "upstream/setup_server.sh": {
+      "sha256": "dc585c35c6a25a2b43d627da71814fafd66d3ff63022d11f05bfeb7e29ceeb0b",
+      "mode": "100755",
+      "bytes": 373
+    },
+    "upstream/testsuite.py": {
+      "sha256": "dea52fa0d13242de360876efbebef747c620383761f2f0d61837bf1362757364",
+      "mode": "100644",
+      "bytes": 1910
+    }
+  },
+  "excluded_git_metadata": [],
+  "history_repair": {
+    "pattern": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "approved_calendar": true,
+    "seed": 20251028,
+    "previous_main": "0c60c4b4468eca902af236cc6bbd25711cac8742",
+    "daily_counts": {
+      "2025-10-17": 2,
+      "2025-10-18": 2,
+      "2025-10-19": 1,
+      "2025-10-20": 0,
+      "2025-10-21": 0,
+      "2025-10-22": 5,
+      "2025-10-23": 4,
+      "2025-10-24": 3,
+      "2025-10-25": 3,
+      "2025-10-26": 2,
+      "2025-10-27": 0,
+      "2025-10-28": 2,
+      "2025-10-29": 1,
+      "2025-10-30": 3,
+      "2025-10-31": 3,
+      "2025-11-01": 0,
+      "2025-11-02": 3,
+      "2025-11-03": 2
+    },
+    "description": "Reconstructed import timestamps; not original development dates."
+  }
+}

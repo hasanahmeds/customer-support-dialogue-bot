@@ -1,0 +1,334 @@
+[
+  {
+    "timestamp": "2025-10-17T13:59:28+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 1/36",
+    "prefix_bytes": {
+      "upstream/LICENSE": 11357,
+      "upstream/chatbot_website/chatbot_interface/static/LICENSE.txt": 17128
+    }
+  },
+  {
+    "timestamp": "2025-10-17T15:07:13+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 2/36",
+    "prefix_bytes": {
+      "upstream/.dockerignore": 12,
+      "upstream/docker/data_dirs.sh": 412,
+      "upstream/docker/deploy.yml": 362,
+      "upstream/docker/README.md": 1371
+    }
+  },
+  {
+    "timestamp": "2025-10-18T12:42:30+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 3/36",
+    "prefix_bytes": {
+      "upstream/docker/train.yml": 467,
+      "upstream/Dockerfile": 827,
+      "upstream/Dockerfile.gpu": 866,
+      "upstream/requirements.txt": 37,
+      "upstream/data/cornell/movie_conversations.txt": 6760930
+    }
+  },
+  {
+    "timestamp": "2025-10-18T19:53:40+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 4/36",
+    "prefix_bytes": {
+      "upstream/data/cornell/movie_lines.txt": 34641919,
+      "upstream/data/cornell/README.txt": 4182,
+      "upstream/data/embeddings/.gitignore": 88,
+      "upstream/data/embeddings/README.md": 741,
+      "upstream/data/embeddings/vec2bin.py": 913
+    }
+  },
+  {
+    "timestamp": "2025-10-19T17:13:52+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 5/36",
+    "prefix_bytes": {
+      "upstream/data/embeddings/vec2bin.py": 1604,
+      "upstream/data/lightweight/.gitignore": 81,
+      "upstream/data/lightweight/README.md": 513,
+      "upstream/data/opensubs/.gitignore": 81
+    }
+  },
+  {
+    "timestamp": "2025-10-22T12:41:08+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 6/36",
+    "prefix_bytes": {
+      "upstream/data/opensubs/README.md": 615,
+      "upstream/data/samples/.gitignore": 70,
+      "upstream/data/scotus/.gitignore": 84,
+      "upstream/data/scotus/README.md": 200,
+      "upstream/data/ubuntu/.gitignore": 84
+    }
+  },
+  {
+    "timestamp": "2025-10-22T13:44:54+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 7/36",
+    "prefix_bytes": {
+      "upstream/data/ubuntu/README.md": 378,
+      "upstream/.gitignore": 1121,
+      "upstream/chatbot/__init__.py": 22,
+      "upstream/chatbot/chatbot.py": 2586
+    }
+  },
+  {
+    "timestamp": "2025-10-22T17:11:33+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 8/36",
+    "prefix_bytes": {
+      "upstream/chatbot/chatbot.py": 13379
+    }
+  },
+  {
+    "timestamp": "2025-10-22T19:43:12+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 9/36",
+    "prefix_bytes": {
+      "upstream/chatbot/chatbot.py": 22580
+    }
+  },
+  {
+    "timestamp": "2025-10-22T22:43:50+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 10/36",
+    "prefix_bytes": {
+      "upstream/chatbot/chatbot.py": 33620
+    }
+  },
+  {
+    "timestamp": "2025-10-23T17:19:50+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 11/36",
+    "prefix_bytes": {
+      "upstream/chatbot/chatbot.py": 34278,
+      "upstream/chatbot/corpus/cornelldata.py": 3321
+    }
+  },
+  {
+    "timestamp": "2025-10-23T18:33:28+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 12/36",
+    "prefix_bytes": {
+      "upstream/chatbot/corpus/lightweightdata.py": 1961,
+      "upstream/chatbot/corpus/opensubsdata.py": 3709
+    }
+  },
+  {
+    "timestamp": "2025-10-23T20:49:23+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 13/36",
+    "prefix_bytes": {
+      "upstream/chatbot/corpus/opensubsdata.py": 4126,
+      "upstream/chatbot/corpus/scotusdata.py": 1602,
+      "upstream/chatbot/corpus/ubuntudata.py": 2154
+    }
+  },
+  {
+    "timestamp": "2025-10-23T22:55:58+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 14/36",
+    "prefix_bytes": {
+      "upstream/chatbot/model.py": 5674
+    }
+  },
+  {
+    "timestamp": "2025-10-24T14:16:58+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 15/36",
+    "prefix_bytes": {
+      "upstream/chatbot/model.py": 9933,
+      "upstream/chatbot/textdata.py": 2538
+    }
+  },
+  {
+    "timestamp": "2025-10-24T19:43:15+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 16/36",
+    "prefix_bytes": {
+      "upstream/chatbot/textdata.py": 11176
+    }
+  },
+  {
+    "timestamp": "2025-10-24T21:39:31+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 17/36",
+    "prefix_bytes": {
+      "upstream/chatbot/textdata.py": 18387
+    }
+  },
+  {
+    "timestamp": "2025-10-25T12:26:45+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 18/36",
+    "prefix_bytes": {
+      "upstream/chatbot/textdata.py": 26071
+    }
+  },
+  {
+    "timestamp": "2025-10-25T15:01:01+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 19/36",
+    "prefix_bytes": {
+      "upstream/chatbot/trainner.py": 1601,
+      "upstream/chatbot_miniature.png": 44896,
+      "upstream/chatbot_website/.gitignore": 38,
+      "upstream/chatbot_website/chatbot_interface/__init__.py": 71
+    }
+  },
+  {
+    "timestamp": "2025-10-25T16:13:44+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 20/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/admin.py": 63,
+      "upstream/chatbot_website/chatbot_interface/apps.py": 108,
+      "upstream/chatbot_website/chatbot_interface/chatbotmanager.py": 1924,
+      "upstream/chatbot_website/chatbot_interface/consumer.py": 1144
+    }
+  },
+  {
+    "timestamp": "2025-10-26T15:16:48+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 21/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/consumer.py": 2269,
+      "upstream/chatbot_website/chatbot_interface/migrations/__init__.py": 0,
+      "upstream/chatbot_website/chatbot_interface/models.py": 57,
+      "upstream/chatbot_website/chatbot_interface/routing.py": 292
+    }
+  },
+  {
+    "timestamp": "2025-10-26T19:50:55+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 22/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/css/font-awesome.min.css": 29063,
+      "upstream/chatbot_website/chatbot_interface/static/assets/css/ie8.css": 527,
+      "upstream/chatbot_website/chatbot_interface/static/assets/css/ie9.css": 587,
+      "upstream/chatbot_website/chatbot_interface/static/assets/css/images/overlay.png": 166,
+      "upstream/chatbot_website/chatbot_interface/static/assets/css/main.css": 17757
+    }
+  },
+  {
+    "timestamp": "2025-10-28T17:39:48+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 23/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/css/noscript.css": 370,
+      "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.eot": 76518,
+      "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.svg": 391622,
+      "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.ttf": 152796,
+      "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.woff": 90412
+    }
+  },
+  {
+    "timestamp": "2025-10-28T20:01:06+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 24/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/fonts/fontawesome-webfont.woff2": 71896,
+      "upstream/chatbot_website/chatbot_interface/static/assets/fonts/FontAwesome.otf": 124988,
+      "upstream/chatbot_website/chatbot_interface/static/assets/js/html5shiv.js": 2380,
+      "upstream/chatbot_website/chatbot_interface/static/assets/js/PIE.htc": 41041
+    }
+  },
+  {
+    "timestamp": "2025-10-29T21:33:45+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 25/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/js/respond.min.js": 4591,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/base/_page.scss": 1925,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/base/_typography.scss": 2012,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_button.scss": 1447,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_form.scss": 3345
+    }
+  },
+  {
+    "timestamp": "2025-10-30T19:31:47+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 26/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_icon.scss": 369,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/components/_list.scss": 2223,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/ie8.scss": 712,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/ie9.scss": 826,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/layout/_footer.scss": 818
+    }
+  },
+  {
+    "timestamp": "2025-10-30T20:20:42+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 27/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/layout/_main.scss": 1486,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/layout/_wrapper.scss": 815,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_functions.scss": 787,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_mixins.scss": 1723
+    }
+  },
+  {
+    "timestamp": "2025-10-30T22:12:15+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 28/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_skel.scss": 16468,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/libs/_vars.scss": 683,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/main.scss": 1571,
+      "upstream/chatbot_website/chatbot_interface/static/assets/sass/noscript.scss": 411,
+      "upstream/chatbot_website/chatbot_interface/static/images/avatar.jpg": 10428
+    }
+  },
+  {
+    "timestamp": "2025-10-31T12:04:36+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 29/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/images/bg.png": 1500470,
+      "upstream/chatbot_website/chatbot_interface/static/images/icon.png": 166,
+      "upstream/chatbot_website/chatbot_interface/static/js/jquery-3.1.0.min.js": 86351,
+      "upstream/chatbot_website/chatbot_interface/static/js/reconnecting-websocket.js": 2806
+    }
+  },
+  {
+    "timestamp": "2025-10-31T17:37:41+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 30/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/js/reconnecting-websocket.js": 9215
+    }
+  },
+  {
+    "timestamp": "2025-10-31T22:46:19+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 31/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/static/js/reconnecting-websocket.js": 14429,
+      "upstream/chatbot_website/chatbot_interface/static/README.txt": 728
+    }
+  },
+  {
+    "timestamp": "2025-11-02T15:22:34+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 32/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_interface/templates/index.html": 3134,
+      "upstream/chatbot_website/chatbot_interface/urls.py": 148,
+      "upstream/chatbot_website/chatbot_interface/views.py": 227,
+      "upstream/chatbot_website/chatbot_website/__init__.py": 0,
+      "upstream/chatbot_website/chatbot_website/asgi.py": 229
+    }
+  },
+  {
+    "timestamp": "2025-11-02T19:37:27+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 33/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_website/settings.py": 4300
+    }
+  },
+  {
+    "timestamp": "2025-11-02T22:13:39+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 34/36",
+    "prefix_bytes": {
+      "upstream/chatbot_website/chatbot_website/settings.py": 4428,
+      "upstream/chatbot_website/chatbot_website/urls.py": 830,
+      "upstream/chatbot_website/chatbot_website/wsgi.py": 408,
+      "upstream/chatbot_website/logs/.gitignore": 70,
+      "upstream/chatbot_website/manage.py": 813
+    }
+  },
+  {
+    "timestamp": "2025-11-03T14:11:11+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 35/36",
+    "prefix_bytes": {
+      "upstream/main.py": 885,
+      "upstream/README.md": 12985,
+      "upstream/save/.gitignore": 70,
+      "upstream/chatbot_website/chatbot_interface/static/js/chat.js": 1318
+    }
+  },
+  {
+    "timestamp": "2025-11-03T14:21:55+00:00",
+    "message": "chore(import): reconstruct Conchylicultor/DeepQA slice 36/36",
+    "prefix_bytes": {
+      "upstream/setup_server.sh": 373,
+      "upstream/chatbot_website/chatbot_interface/tests.py": 60,
+      "upstream/data/test/samples.txt": 6010,
+      "upstream/testsuite.py": 1910
+    }
+  }
+]
