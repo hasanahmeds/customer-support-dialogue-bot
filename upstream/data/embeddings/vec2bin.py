@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+import sys
+import getopt
+import numpy as np
+
+from tqdm import tqdm
+
+input_path = 'wiki.fr.vec'
+output_path = 'wifi.fr.bin'
+
+def vec2bin(input_path, output_path):
+    input_fd  = open(input_path, "rb")
+    output_fd = open(output_path, "wb")
+
+    header = input_fd.readline()
+    output_fd.write(header)
+
+    vocab_size, vector_size = map(int, header.split())
+
+    for line in tqdm(range(vocab_size)):
+        word = []
+        while True:
+            ch = input_fd.read(1)
+            output_fd.write(ch)
+            if ch == b' ':
+                word = b''.join(word).decode('utf-8')
+                break
+            if ch != b'\n':
+                word.append(ch)
+        vector = np.fromstring(input_fd.readline(), sep=' ', dtype='float32')
+        output_fd.write(vector.tostring())
+
+    input_fd.close()
+    output_fd.close()
+
+
+def main(argv):
+   inputfile = False
+   outputfile = False
