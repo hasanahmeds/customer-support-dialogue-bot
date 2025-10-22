@@ -438,3 +438,203 @@ class Chatbot:
                         f.readline()
                     else:
                         raise Exception("Unkown format for embeddings: %s " % embeddings_format)
+
+        # PCA Decomposition to reduce word2vec dimensionality
+        if self.args.embeddingSize < vector_size:
+            U, s, Vt = np.linalg.svd(initW, full_matrices=False)
+            S = np.zeros((vector_size, vector_size), dtype=complex)
+            S[:vector_size, :vector_size] = np.diag(s)
+            initW = np.dot(U[:, :self.args.embeddingSize], S[:self.args.embeddingSize, :self.args.embeddingSize])
+
+        # Initialize input and output embeddings
+        sess.run(em_in.assign(initW))
+        sess.run(em_out.assign(initW))
+
+
+    def managePreviousModel(self, sess):
+        """ Restore or reset the model, depending of the parameters
+        If the destination directory already contains some file, it will handle the conflict as following:
+         * If --reset is set, all present files will be removed (warning: no confirmation is asked) and the training
+         restart from scratch (globStep & cie reinitialized)
+         * Otherwise, it will depend of the directory content. If the directory contains:
+           * No model files (only summary logs): works as a reset (restart from scratch)
+           * Other model files, but modelName not found (surely keepAll option changed): raise error, the user should
+           decide by himself what to do
+           * The right model file (eventually some other): no problem, simply resume the training
+        In any case, the directory will exist as it has been created by the summary writer
+        Args:
+            sess: The current running session
+        """
+
+        print('WARNING: ', end='')
+
+        modelName = self._getModelName()
+
+        if os.listdir(self.modelDir):
+            if self.args.reset:
+                print('Reset: Destroying previous model at {}'.format(self.modelDir))
+            # Analysing directory content
+            elif os.path.exists(modelName):  # Restore the model
+                print('Restoring previous model from {}'.format(modelName))
+                self.saver.restore(sess, modelName)  # Will crash when --reset is not activated and the model has not been saved yet
+            elif self._getModelList():
+                print('Conflict with previous models.')
+                raise RuntimeError('Some models are already present in \'{}\'. You should check them first (or re-try with the keepAll flag)'.format(self.modelDir))
+            else:  # No other model to conflict with (probably summary files)
+                print('No previous model found, but some files found at {}. Cleaning...'.format(self.modelDir))  # Warning: No confirmation asked
+                self.args.reset = True
+
+            if self.args.reset:
+                fileList = [os.path.join(self.modelDir, f) for f in os.listdir(self.modelDir)]
+                for f in fileList:
+                    print('Removing {}'.format(f))
+                    os.remove(f)
+
+        else:
+            print('No previous model found, starting from clean directory: {}'.format(self.modelDir))
+
+    def _saveSession(self, sess):
+        """ Save the model parameters and the variables
+        Args:
+            sess: the current session
+        """
+        tqdm.write('Checkpoint reached: saving model (don\'t stop the run)...')
+        self.saveModelParams()
+        model_name = self._getModelName()
+        with open(model_name, 'w') as f:  # HACK: Simulate the old model existance to avoid rewriting the file parser
+            f.write('This file is used internally by DeepQA to check the model existance. Please do not remove.\n')
+        self.saver.save(sess, model_name)  # TODO: Put a limit size (ex: 3GB for the modelDir)
+        tqdm.write('Model saved.')
+
+    def _getModelList(self):
+        """ Return the list of the model files inside the model directory
+        """
+        return [os.path.join(self.modelDir, f) for f in os.listdir(self.modelDir) if f.endswith(self.MODEL_EXT)]
+
+    def loadModelParams(self):
+        """ Load the some values associated with the current model, like the current globStep value
+        For now, this function does not need to be called before loading the model (no parameters restored). However,
+        the modelDir name will be initialized here so it is required to call this function before managePreviousModel(),
+        _getModelName() or _getSummaryName()
+        Warning: if you modify this function, make sure the changes mirror saveModelParams, also check if the parameters
+        should be reset in managePreviousModel
+        """
+        # Compute the current model path
+        self.modelDir = os.path.join(self.args.rootDir, self.MODEL_DIR_BASE)
+        if self.args.modelTag:
+            self.modelDir += '-' + self.args.modelTag
+
+        # If there is a previous model, restore some parameters
+        configName = os.path.join(self.modelDir, self.CONFIG_FILENAME)
+        if not self.args.reset and not self.args.createDataset and os.path.exists(configName):
+            # Loading
+            config = configparser.ConfigParser()
+            config.read(configName)
+
+            # Check the version
+            currentVersion = config['General'].get('version')
+            if currentVersion != self.CONFIG_VERSION:
+                raise UserWarning('Present configuration version {0} does not match {1}. You can try manual changes on \'{2}\''.format(currentVersion, self.CONFIG_VERSION, configName))
+
+            # Restoring the the parameters
+            self.globStep = config['General'].getint('globStep')
+            self.args.watsonMode = config['General'].getboolean('watsonMode')
+            self.args.autoEncode = config['General'].getboolean('autoEncode')
+            self.args.corpus = config['General'].get('corpus')
+
+            self.args.datasetTag = config['Dataset'].get('datasetTag')
+            self.args.maxLength = config['Dataset'].getint('maxLength')  # We need to restore the model length because of the textData associated and the vocabulary size (TODO: Compatibility mode between different maxLength)
+            self.args.filterVocab = config['Dataset'].getint('filterVocab')
+            self.args.skipLines = config['Dataset'].getboolean('skipLines')
+            self.args.vocabularySize = config['Dataset'].getint('vocabularySize')
+
+            self.args.hiddenSize = config['Network'].getint('hiddenSize')
+            self.args.numLayers = config['Network'].getint('numLayers')
+            self.args.softmaxSamples = config['Network'].getint('softmaxSamples')
+            self.args.initEmbeddings = config['Network'].getboolean('initEmbeddings')
+            self.args.embeddingSize = config['Network'].getint('embeddingSize')
+            self.args.embeddingSource = config['Network'].get('embeddingSource')
+
+            # No restoring for training params, batch size or other non model dependent parameters
+
+            # Show the restored params
+            print()
+            print('Warning: Restoring parameters:')
+            print('globStep: {}'.format(self.globStep))
+            print('watsonMode: {}'.format(self.args.watsonMode))
+            print('autoEncode: {}'.format(self.args.autoEncode))
+            print('corpus: {}'.format(self.args.corpus))
+            print('datasetTag: {}'.format(self.args.datasetTag))
+            print('maxLength: {}'.format(self.args.maxLength))
+            print('filterVocab: {}'.format(self.args.filterVocab))
+            print('skipLines: {}'.format(self.args.skipLines))
+            print('vocabularySize: {}'.format(self.args.vocabularySize))
+            print('hiddenSize: {}'.format(self.args.hiddenSize))
+            print('numLayers: {}'.format(self.args.numLayers))
+            print('softmaxSamples: {}'.format(self.args.softmaxSamples))
+            print('initEmbeddings: {}'.format(self.args.initEmbeddings))
+            print('embeddingSize: {}'.format(self.args.embeddingSize))
+            print('embeddingSource: {}'.format(self.args.embeddingSource))
+            print()
+
+        # For now, not arbitrary  independent maxLength between encoder and decoder
+        self.args.maxLengthEnco = self.args.maxLength
+        self.args.maxLengthDeco = self.args.maxLength + 2
+
+        if self.args.watsonMode:
+            self.SENTENCES_PREFIX.reverse()
+
+
+    def saveModelParams(self):
+        """ Save the params of the model, like the current globStep value
+        Warning: if you modify this function, make sure the changes mirror loadModelParams
+        """
+        config = configparser.ConfigParser()
+        config['General'] = {}
+        config['General']['version']  = self.CONFIG_VERSION
+        config['General']['globStep']  = str(self.globStep)
+        config['General']['watsonMode'] = str(self.args.watsonMode)
+        config['General']['autoEncode'] = str(self.args.autoEncode)
+        config['General']['corpus'] = str(self.args.corpus)
+
+        config['Dataset'] = {}
+        config['Dataset']['datasetTag'] = str(self.args.datasetTag)
+        config['Dataset']['maxLength'] = str(self.args.maxLength)
+        config['Dataset']['filterVocab'] = str(self.args.filterVocab)
+        config['Dataset']['skipLines'] = str(self.args.skipLines)
+        config['Dataset']['vocabularySize'] = str(self.args.vocabularySize)
+
+        config['Network'] = {}
+        config['Network']['hiddenSize'] = str(self.args.hiddenSize)
+        config['Network']['numLayers'] = str(self.args.numLayers)
+        config['Network']['softmaxSamples'] = str(self.args.softmaxSamples)
+        config['Network']['initEmbeddings'] = str(self.args.initEmbeddings)
+        config['Network']['embeddingSize'] = str(self.args.embeddingSize)
+        config['Network']['embeddingSource'] = str(self.args.embeddingSource)
+
+        # Keep track of the learning params (but without restoring them)
+        config['Training (won\'t be restored)'] = {}
+        config['Training (won\'t be restored)']['learningRate'] = str(self.args.learningRate)
+        config['Training (won\'t be restored)']['batchSize'] = str(self.args.batchSize)
+        config['Training (won\'t be restored)']['dropout'] = str(self.args.dropout)
+
+        with open(os.path.join(self.modelDir, self.CONFIG_FILENAME), 'w') as configFile:
+            config.write(configFile)
+
+    def _getSummaryName(self):
+        """ Parse the argument to decide were to save the summary, at the same place that the model
+        The folder could already contain logs if we restore the training, those will be merged
+        Return:
+            str: The path and name of the summary
+        """
+        return self.modelDir
+
+    def _getModelName(self):
+        """ Parse the argument to decide were to save/load the model
+        This function is called at each checkpoint and the first time the model is load. If keepAll option is set, the
+        globStep value will be included in the name.
+        Return:
+            str: The path and name were the model need to be saved
+        """
+        modelName = os.path.join(self.modelDir, self.MODEL_NAME_BASE)
+        if self.args.keepAll:  # We do not erase the previously saved model by including the current step on the name
