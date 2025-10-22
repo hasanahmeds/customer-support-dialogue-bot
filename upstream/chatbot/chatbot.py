@@ -238,3 +238,203 @@ class Chatbot:
         try:  # If the user exit while training, we still try to save the model
             for e in range(self.args.numEpochs):
 
+                print()
+                print("----- Epoch {}/{} ; (lr={}) -----".format(e+1, self.args.numEpochs, self.args.learningRate))
+
+                batches = self.textData.getBatches()
+
+                # TODO: Also update learning parameters eventually
+
+                tic = datetime.datetime.now()
+                for nextBatch in tqdm(batches, desc="Training"):
+                    # Training pass
+                    ops, feedDict = self.model.step(nextBatch)
+                    assert len(ops) == 2  # training, loss
+                    _, loss, summary = sess.run(ops + (mergedSummaries,), feedDict)
+                    self.writer.add_summary(summary, self.globStep)
+                    self.globStep += 1
+
+                    # Output training status
+                    if self.globStep % 100 == 0:
+                        perplexity = math.exp(float(loss)) if loss < 300 else float("inf")
+                        tqdm.write("----- Step %d -- Loss %.2f -- Perplexity %.2f" % (self.globStep, loss, perplexity))
+
+                    # Checkpoint
+                    if self.globStep % self.args.saveEvery == 0:
+                        self._saveSession(sess)
+
+                toc = datetime.datetime.now()
+
+                print("Epoch finished in {}".format(toc-tic))  # Warning: Will overflow if an epoch takes more than 24 hours, and the output isn't really nicer
+        except (KeyboardInterrupt, SystemExit):  # If the user press Ctrl+C while testing progress
+            print('Interruption detected, exiting the program...')
+
+        self._saveSession(sess)  # Ultimate saving before complete exit
+
+    def predictTestset(self, sess):
+        """ Try predicting the sentences from the samples.txt file.
+        The sentences are saved on the modelDir under the same name
+        Args:
+            sess: The current running session
+        """
+
+        # Loading the file to predict
+        with open(os.path.join(self.args.rootDir, self.TEST_IN_NAME), 'r') as f:
+            lines = f.readlines()
+
+        modelList = self._getModelList()
+        if not modelList:
+            print('Warning: No model found in \'{}\'. Please train a model before trying to predict'.format(self.modelDir))
+            return
+
+        # Predicting for each model present in modelDir
+        for modelName in sorted(modelList):  # TODO: Natural sorting
+            print('Restoring previous model from {}'.format(modelName))
+            self.saver.restore(sess, modelName)
+            print('Testing...')
+
+            saveName = modelName[:-len(self.MODEL_EXT)] + self.TEST_OUT_SUFFIX  # We remove the model extension and add the prediction suffix
+            with open(saveName, 'w') as f:
+                nbIgnored = 0
+                for line in tqdm(lines, desc='Sentences'):
+                    question = line[:-1]  # Remove the endl character
+
+                    answer = self.singlePredict(question)
+                    if not answer:
+                        nbIgnored += 1
+                        continue  # Back to the beginning, try again
+
+                    predString = '{x[0]}{0}\n{x[1]}{1}\n\n'.format(question, self.textData.sequence2str(answer, clean=True), x=self.SENTENCES_PREFIX)
+                    if self.args.verbose:
+                        tqdm.write(predString)
+                    f.write(predString)
+                print('Prediction finished, {}/{} sentences ignored (too long)'.format(nbIgnored, len(lines)))
+
+    def mainTestInteractive(self, sess):
+        """ Try predicting the sentences that the user will enter in the console
+        Args:
+            sess: The current running session
+        """
+        # TODO: If verbose mode, also show similar sentences from the training set with the same words (include in mainTest also)
+        # TODO: Also show the top 10 most likely predictions for each predicted output (when verbose mode)
+        # TODO: Log the questions asked for latter re-use (merge with test/samples.txt)
+
+        print('Testing: Launch interactive mode:')
+        print('')
+        print('Welcome to the interactive mode, here you can ask to Deep Q&A the sentence you want. Don\'t have high '
+              'expectation. Type \'exit\' or just press ENTER to quit the program. Have fun.')
+
+        while True:
+            question = input(self.SENTENCES_PREFIX[0])
+            if question == '' or question == 'exit':
+                break
+
+            questionSeq = []  # Will be contain the question as seen by the encoder
+            answer = self.singlePredict(question, questionSeq)
+            if not answer:
+                print('Warning: sentence too long, sorry. Maybe try a simpler sentence.')
+                continue  # Back to the beginning, try again
+
+            print('{}{}'.format(self.SENTENCES_PREFIX[1], self.textData.sequence2str(answer, clean=True)))
+
+            if self.args.verbose:
+                print(self.textData.batchSeq2str(questionSeq, clean=True, reverse=True))
+                print(self.textData.sequence2str(answer))
+
+            print()
+
+    def singlePredict(self, question, questionSeq=None):
+        """ Predict the sentence
+        Args:
+            question (str): the raw input sentence
+            questionSeq (List<int>): output argument. If given will contain the input batch sequence
+        Return:
+            list <int>: the word ids corresponding to the answer
+        """
+        # Create the input batch
+        batch = self.textData.sentence2enco(question)
+        if not batch:
+            return None
+        if questionSeq is not None:  # If the caller want to have the real input
+            questionSeq.extend(batch.encoderSeqs)
+
+        # Run the model
+        ops, feedDict = self.model.step(batch)
+        output = self.sess.run(ops[0], feedDict)  # TODO: Summarize the output too (histogram, ...)
+        answer = self.textData.deco2sentence(output)
+
+        return answer
+
+    def daemonPredict(self, sentence):
+        """ Return the answer to a given sentence (same as singlePredict() but with additional cleaning)
+        Args:
+            sentence (str): the raw input sentence
+        Return:
+            str: the human readable sentence
+        """
+        return self.textData.sequence2str(
+            self.singlePredict(sentence),
+            clean=True
+        )
+
+    def daemonClose(self):
+        """ A utility function to close the daemon when finish
+        """
+        print('Exiting the daemon mode...')
+        self.sess.close()
+        print('Daemon closed.')
+
+    def loadEmbedding(self, sess):
+        """ Initialize embeddings with pre-trained word2vec vectors
+        Will modify the embedding weights of the current loaded model
+        Uses the GoogleNews pre-trained values (path hardcoded)
+        """
+
+        # Fetch embedding variables from model
+        with tf.variable_scope("embedding_rnn_seq2seq/rnn/embedding_wrapper", reuse=True):
+            em_in = tf.get_variable("embedding")
+        with tf.variable_scope("embedding_rnn_seq2seq/embedding_rnn_decoder", reuse=True):
+            em_out = tf.get_variable("embedding")
+
+        # Disable training for embeddings
+        variables = tf.get_collection_ref(tf.GraphKeys.TRAINABLE_VARIABLES)
+        variables.remove(em_in)
+        variables.remove(em_out)
+
+        # If restoring a model, we can leave here
+        if self.globStep != 0:
+            return
+
+        # New model, we load the pre-trained word2vec data and initialize embeddings
+        embeddings_path = os.path.join(self.args.rootDir, 'data', 'embeddings', self.args.embeddingSource)
+        embeddings_format = os.path.splitext(embeddings_path)[1][1:]
+        print("Loading pre-trained word embeddings from %s " % embeddings_path)
+        with open(embeddings_path, "rb") as f:
+            header = f.readline()
+            vocab_size, vector_size = map(int, header.split())
+            binary_len = np.dtype('float32').itemsize * vector_size
+            initW = np.random.uniform(-0.25,0.25,(len(self.textData.word2id), vector_size))
+            for line in tqdm(range(vocab_size)):
+                word = []
+                while True:
+                    ch = f.read(1)
+                    if ch == b' ':
+                        word = b''.join(word).decode('utf-8')
+                        break
+                    if ch != b'\n':
+                        word.append(ch)
+                if word in self.textData.word2id:
+                    if embeddings_format == 'bin':
+                        vector = np.fromstring(f.read(binary_len), dtype='float32')
+                    elif embeddings_format == 'vec':
+                        vector = np.fromstring(f.readline(), sep=' ', dtype='float32')
+                    else:
+                        raise Exception("Unkown format for embeddings: %s " % embeddings_format)
+                    initW[self.textData.word2id[word]] = vector
+                else:
+                    if embeddings_format == 'bin':
+                        f.read(binary_len)
+                    elif embeddings_format == 'vec':
+                        f.readline()
+                    else:
+                        raise Exception("Unkown format for embeddings: %s " % embeddings_format)
