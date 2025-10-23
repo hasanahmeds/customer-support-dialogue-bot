@@ -638,3 +638,20 @@ class Chatbot:
         """
         modelName = os.path.join(self.modelDir, self.MODEL_NAME_BASE)
         if self.args.keepAll:  # We do not erase the previously saved model by including the current step on the name
+            modelName += '-' + str(self.globStep)
+        return modelName + self.MODEL_EXT
+
+    def getDevice(self):
+        """ Parse the argument to decide on which device run the model
+        Return:
+            str: The name of the device on which run the program
+        """
+        if self.args.device == 'cpu':
+            return '/cpu:0'
+        elif self.args.device == 'gpu':
+            return '/gpu:0'
+        elif self.args.device is None:  # No specified device (default)
+            return None
+        else:
+            print('Warning: Error in the device name: {}, use the default device'.format(self.args.device))
+            return None
