@@ -118,3 +118,16 @@ class OpensubsData:
 
     def getXML(self, filepath):
         fext = os.path.splitext(filepath)[1]
+        if fext == '.gz':
+            tmp = GzipFile(filename=filepath)
+            return ET.parse(tmp)
+        else:
+            return ET.parse(filepath)
+
+    def filesInDir(self, dirname):
+        result = []
+        for dirpath, dirs, files in os.walk(dirname):
+            for filename in files:
+                fname = os.path.join(dirpath, filename)
+                result.append(fname)
+        return result
