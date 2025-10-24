@@ -158,3 +158,88 @@ class Model:
         # Network input (placeholders)
 
         with tf.name_scope('placeholder_encoder'):
+            self.encoderInputs  = [tf.placeholder(tf.int32,   [None, ]) for _ in range(self.args.maxLengthEnco)]  # Batch size * sequence length * input dim
+
+        with tf.name_scope('placeholder_decoder'):
+            self.decoderInputs  = [tf.placeholder(tf.int32,   [None, ], name='inputs') for _ in range(self.args.maxLengthDeco)]  # Same sentence length for input and output (Right ?)
+            self.decoderTargets = [tf.placeholder(tf.int32,   [None, ], name='targets') for _ in range(self.args.maxLengthDeco)]
+            self.decoderWeights = [tf.placeholder(tf.float32, [None, ], name='weights') for _ in range(self.args.maxLengthDeco)]
+
+        # Define the network
+        # Here we use an embedding model, it takes integer as input and convert them into word vector for
+        # better word representation
+        decoderOutputs, states = tf.contrib.legacy_seq2seq.embedding_rnn_seq2seq(
+            self.encoderInputs,  # List<[batch=?, inputDim=1]>, list of size args.maxLength
+            self.decoderInputs,  # For training, we force the correct output (feed_previous=False)
+            encoDecoCell,
+            self.textData.getVocabularySize(),
+            self.textData.getVocabularySize(),  # Both encoder and decoder have the same number of class
+            embedding_size=self.args.embeddingSize,  # Dimension of each word
+            output_projection=outputProjection.getWeights() if outputProjection else None,
+            feed_previous=bool(self.args.test)  # When we test (self.args.test), we use previous output as next input (feed_previous)
+        )
+
+        # TODO: When the LSTM hidden size is too big, we should project the LSTM output into a smaller space (4086 => 2046): Should speed up
+        # training and reduce memory usage. Other solution, use sampling softmax
+
+        # For testing only
+        if self.args.test:
+            if not outputProjection:
+                self.outputs = decoderOutputs
+            else:
+                self.outputs = [outputProjection(output) for output in decoderOutputs]
+
+            # TODO: Attach a summary to visualize the output
+
+        # For training only
+        else:
+            # Finally, we define the loss function
+            self.lossFct = tf.contrib.legacy_seq2seq.sequence_loss(
+                decoderOutputs,
+                self.decoderTargets,
+                self.decoderWeights,
+                self.textData.getVocabularySize(),
+                softmax_loss_function= sampledSoftmax if outputProjection else None  # If None, use default SoftMax
+            )
+            tf.summary.scalar('loss', self.lossFct)  # Keep track of the cost
+
+            # Initialize the optimizer
+            opt = tf.train.AdamOptimizer(
+                learning_rate=self.args.learningRate,
+                beta1=0.9,
+                beta2=0.999,
+                epsilon=1e-08
+            )
+            self.optOp = opt.minimize(self.lossFct)
+
+    def step(self, batch):
+        """ Forward/training step operation.
+        Does not perform run on itself but just return the operators to do so. Those have then to be run
+        Args:
+            batch (Batch): Input data on testing mode, input and target on output mode
+        Return:
+            (ops), dict: A tuple of the (training, loss) operators or (outputs,) in testing mode with the associated feed dictionary
+        """
+
+        # Feed the dictionary
+        feedDict = {}
+        ops = None
+
+        if not self.args.test:  # Training
+            for i in range(self.args.maxLengthEnco):
+                feedDict[self.encoderInputs[i]]  = batch.encoderSeqs[i]
+            for i in range(self.args.maxLengthDeco):
+                feedDict[self.decoderInputs[i]]  = batch.decoderSeqs[i]
+                feedDict[self.decoderTargets[i]] = batch.targetSeqs[i]
+                feedDict[self.decoderWeights[i]] = batch.weights[i]
+
+            ops = (self.optOp, self.lossFct)
+        else:  # Testing (batchSize == 1)
+            for i in range(self.args.maxLengthEnco):
+                feedDict[self.encoderInputs[i]]  = batch.encoderSeqs[i]
+            feedDict[self.decoderInputs[0]]  = [self.textData.goToken]
+
+            ops = (self.outputs,)
+
+        # Return one pass operator
+        return ops, feedDict
