@@ -438,3 +438,203 @@ class TextData:
 
         if self.args.skipLines:  # WARNING: The dataset won't be regenerated if the choice evolve (have to use the datasetTag)
             step = 2
+        else:
+            step = 1
+
+        # Iterate over all the lines of the conversation
+        for i in tqdm_wrap(
+            range(0, len(conversation['lines']) - 1, step),  # We ignore the last line (no answer for it)
+            desc='Conversation',
+            leave=False
+        ):
+            inputLine  = conversation['lines'][i]
+            targetLine = conversation['lines'][i+1]
+
+            inputWords  = self.extractText(inputLine['text'])
+            targetWords = self.extractText(targetLine['text'])
+
+            if inputWords and targetWords:  # Filter wrong samples (if one of the list is empty)
+                self.trainingSamples.append([inputWords, targetWords])
+
+    def extractText(self, line):
+        """Extract the words from a sample lines
+        Args:
+            line (str): a line containing the text to extract
+        Return:
+            list<list<int>>: the list of sentences of word ids of the sentence
+        """
+        sentences = []  # List[List[str]]
+
+        # Extract sentences
+        sentencesToken = nltk.sent_tokenize(line)
+
+        # We add sentence by sentence until we reach the maximum length
+        for i in range(len(sentencesToken)):
+            tokens = nltk.word_tokenize(sentencesToken[i])
+
+            tempWords = []
+            for token in tokens:
+                tempWords.append(self.getWordId(token))  # Create the vocabulary and the training sentences
+
+            sentences.append(tempWords)
+
+        return sentences
+
+    def getWordId(self, word, create=True):
+        """Get the id of the word (and add it to the dictionary if not existing). If the word does not exist and
+        create is set to False, the function will return the unknownToken value
+        Args:
+            word (str): word to add
+            create (Bool): if True and the word does not exist already, the world will be added
+        Return:
+            int: the id of the word created
+        """
+        # Should we Keep only words with more than one occurrence ?
+
+        word = word.lower()  # Ignore case
+
+        # At inference, we simply look up for the word
+        if not create:
+            wordId = self.word2id.get(word, self.unknownToken)
+        # Get the id if the word already exist
+        elif word in self.word2id:
+            wordId = self.word2id[word]
+            self.idCount[wordId] += 1
+        # If not, we create a new entry
+        else:
+            wordId = len(self.word2id)
+            self.word2id[word] = wordId
+            self.id2word[wordId] = word
+            self.idCount[wordId] = 1
+
+        return wordId
+
+    def printBatch(self, batch):
+        """Print a complete batch, useful for debugging
+        Args:
+            batch (Batch): a batch object
+        """
+        print('----- Print batch -----')
+        for i in range(len(batch.encoderSeqs[0])):  # Batch size
+            print('Encoder: {}'.format(self.batchSeq2str(batch.encoderSeqs, seqId=i)))
+            print('Decoder: {}'.format(self.batchSeq2str(batch.decoderSeqs, seqId=i)))
+            print('Targets: {}'.format(self.batchSeq2str(batch.targetSeqs, seqId=i)))
+            print('Weights: {}'.format(' '.join([str(weight) for weight in [batchWeight[i] for batchWeight in batch.weights]])))
+
+    def sequence2str(self, sequence, clean=False, reverse=False):
+        """Convert a list of integer into a human readable string
+        Args:
+            sequence (list<int>): the sentence to print
+            clean (Bool): if set, remove the <go>, <pad> and <eos> tokens
+            reverse (Bool): for the input, option to restore the standard order
+        Return:
+            str: the sentence
+        """
+
+        if not sequence:
+            return ''
+
+        if not clean:
+            return ' '.join([self.id2word[idx] for idx in sequence])
+
+        sentence = []
+        for wordId in sequence:
+            if wordId == self.eosToken:  # End of generated sentence
+                break
+            elif wordId != self.padToken and wordId != self.goToken:
+                sentence.append(self.id2word[wordId])
+
+        if reverse:  # Reverse means input so no <eos> (otherwise pb with previous early stop)
+            sentence.reverse()
+
+        return self.detokenize(sentence)
+
+    def detokenize(self, tokens):
+        """Slightly cleaner version of joining with spaces.
+        Args:
+            tokens (list<string>): the sentence to print
+        Return:
+            str: the sentence
+        """
+        return ''.join([
+            ' ' + t if not t.startswith('\'') and
+                       t not in string.punctuation
+                    else t
+            for t in tokens]).strip().capitalize()
+
+    def batchSeq2str(self, batchSeq, seqId=0, **kwargs):
+        """Convert a list of integer into a human readable string.
+        The difference between the previous function is that on a batch object, the values have been reorganized as
+        batch instead of sentence.
+        Args:
+            batchSeq (list<list<int>>): the sentence(s) to print
+            seqId (int): the position of the sequence inside the batch
+            kwargs: the formatting options( See sequence2str() )
+        Return:
+            str: the sentence
+        """
+        sequence = []
+        for i in range(len(batchSeq)):  # Sequence length
+            sequence.append(batchSeq[i][seqId])
+        return self.sequence2str(sequence, **kwargs)
+
+    def sentence2enco(self, sentence):
+        """Encode a sequence and return a batch as an input for the model
+        Return:
+            Batch: a batch object containing the sentence, or none if something went wrong
+        """
+
+        if sentence == '':
+            return None
+
+        # First step: Divide the sentence in token
+        tokens = nltk.word_tokenize(sentence)
+        if len(tokens) > self.args.maxLength:
+            return None
+
+        # Second step: Convert the token in word ids
+        wordIds = []
+        for token in tokens:
+            wordIds.append(self.getWordId(token, create=False))  # Create the vocabulary and the training sentences
+
+        # Third step: creating the batch (add padding, reverse)
+        batch = self._createBatch([[wordIds, []]])  # Mono batch, no target output
+
+        return batch
+
+    def deco2sentence(self, decoderOutputs):
+        """Decode the output of the decoder and return a human friendly sentence
+        decoderOutputs (list<np.array>):
+        """
+        sequence = []
+
+        # Choose the words with the highest prediction score
+        for out in decoderOutputs:
+            sequence.append(np.argmax(out))  # Adding each predicted word ids
+
+        return sequence  # We return the raw sentence. Let the caller do some cleaning eventually
+
+    def playDataset(self):
+        """Print a random dialogue from the dataset
+        """
+        print('Randomly play samples:')
+        for i in range(self.args.playDataset):
+            idSample = random.randint(0, len(self.trainingSamples) - 1)
+            print('Q: {}'.format(self.sequence2str(self.trainingSamples[idSample][0], clean=True)))
+            print('A: {}'.format(self.sequence2str(self.trainingSamples[idSample][1], clean=True)))
+            print()
+        pass
+
+
+def tqdm_wrap(iterable, *args, **kwargs):
+    """Forward an iterable eventually wrapped around a tqdm decorator
+    The iterable is only wrapped if the iterable contains enough elements
+    Args:
+        iterable (list): An iterable object which define the __len__ method
+        *args, **kwargs: the tqdm parameters
+    Return:
+        iter: The iterable eventually decorated
+    """
+    if len(iterable) > 100:
+        return tqdm(iterable, *args, **kwargs)
+    return iterable
