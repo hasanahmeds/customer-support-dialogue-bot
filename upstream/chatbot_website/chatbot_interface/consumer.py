@@ -38,3 +38,36 @@ def ws_connect(message):
 def ws_receive(message):
     """ Called when a client send a message
     Args:
+        message (Obj): object containing the client query
+    """
+    # Get client info
+    clientName = message.channel_session['room']
+    data = json.loads(message['text'])
+
+    # Compute the prediction
+    question = data['message']
+    try:
+        answer = ChatbotManager.callBot(question)
+    except:  # Catching all possible mistakes
+        logger.error('{}: Error with this question {}'.format(clientName, question))
+        logger.error("Unexpected error:", sys.exc_info()[0])
+        answer = 'Error: Internal problem'
+
+    # Check eventual error
+    if not answer:
+        answer = 'Error: Try a shorter sentence'
+
+    logger.info('{}: {} -> {}'.format(clientName, question, answer))
+
+    # Send the prediction back
+    Group(clientName).send({'text': json.dumps({'message': answer})})
+
+@channel_session
+def ws_disconnect(message):
+    """ Called when a client disconnect
+    Args:
+        message (Obj): object containing the client query
+    """
+    clientName = message.channel_session['room']
+    logger.info('Client disconnected: {}'.format(clientName))
+    Group(clientName).discard(message.reply_channel)
